@@ -1,9 +1,6 @@
 package com.example.Bank.Application.controller;
 
-import com.example.Bank.Application.dto.BankResponse;
-import com.example.Bank.Application.dto.CreditDebitRequest;
-import com.example.Bank.Application.dto.EnquiryRequest;
-import com.example.Bank.Application.dto.UserRequest;
+import com.example.Bank.Application.dto.*;
 import com.example.Bank.Application.service.impl.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -49,6 +46,12 @@ public class UserController {
     public ResponseEntity<BankResponse>debitAccount(@Valid @RequestBody CreditDebitRequest creditDebitRequest)
     {
         BankResponse bankResponse=userService.debitAccount(creditDebitRequest);
+        return new ResponseEntity<>(bankResponse, HttpStatus.OK);
+    }
+    @PostMapping("/transfer")
+    public ResponseEntity<BankResponse>transfer(@Valid @RequestBody TransferRequest transferRequest)
+    {
+        BankResponse bankResponse=userService.transfer(transferRequest);
         return new ResponseEntity<>(bankResponse, HttpStatus.OK);
     }
 }
