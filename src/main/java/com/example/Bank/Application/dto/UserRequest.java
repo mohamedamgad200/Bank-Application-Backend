@@ -14,11 +14,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class UserRequest {
-//    @NotBlank(message = "firstName should not be empty")
+    @NotBlank(message = "firstName should not be empty")
     private String firstName;
-//    @NotBlank(message = "lastName should not be empty")
+    @NotBlank(message = "lastName should not be empty")
     private String lastName;
-//    @NotBlank(message = "otherName should not be empty")
+    @NotBlank(message = "otherName should not be empty")
     private String otherName;
     @NotBlank(message = "gender should not be empty")
     private String gender;
