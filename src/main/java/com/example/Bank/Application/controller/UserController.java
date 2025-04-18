@@ -1,6 +1,7 @@
 package com.example.Bank.Application.controller;
 
 import com.example.Bank.Application.dto.BankResponse;
+import com.example.Bank.Application.dto.CreditDebitRequest;
 import com.example.Bank.Application.dto.EnquiryRequest;
 import com.example.Bank.Application.dto.UserRequest;
 import com.example.Bank.Application.service.impl.UserService;
@@ -37,5 +38,11 @@ public class UserController {
         String name=userService.nameEnquiry(enquiryRequest);
         response.put("Account Name",name);
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    @PostMapping("/credit")
+    public ResponseEntity<BankResponse>creditAccount(@Valid @RequestBody CreditDebitRequest creditDebitRequest)
+    {
+       BankResponse bankResponse= userService.creditAccount(creditDebitRequest);
+       return new ResponseEntity<>(bankResponse, HttpStatus.OK);
     }
 }
