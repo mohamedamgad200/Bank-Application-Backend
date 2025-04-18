@@ -2,6 +2,7 @@ package com.example.Bank.Application.service.impl;
 
 import com.example.Bank.Application.dto.AccountInfo;
 import com.example.Bank.Application.dto.BankResponse;
+import com.example.Bank.Application.dto.EmailDetails;
 import com.example.Bank.Application.dto.UserRequest;
 import com.example.Bank.Application.entity.User;
 import com.example.Bank.Application.repository.UserRepository;
@@ -15,6 +16,7 @@ import java.math.BigDecimal;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final EmailService emailService;
 
     @Override
     public BankResponse createAccount(UserRequest userRequest) {
@@ -44,14 +46,21 @@ public class UserServiceImpl implements UserService {
                 .status("ACTIVE")
                 .build();
         User savedUser = userRepository.save(newUser);
-
+        EmailDetails emailDetails= EmailDetails.builder()
+                .recipient(savedUser.getEmail())
+                .subject("ACCOUNT CREATION")
+                .messageBody("congratulations! Your Account Has Been Successfully Created. \nYour Account Details: \n" +
+                        "Account Name : "+savedUser.getFirstName()+" "+savedUser.getLastName()+" "+savedUser.getOtherName()+"\n"
+                        + "AccountNumber : "+savedUser.getAccountNumber()+"\n")
+                .build();
+        emailService.sendEmailAlert(emailDetails);
         return BankResponse.builder()
                 .responseCode(AccountUtils.ACCOUNT_CREATION_CODE)
                 .responseMessage(AccountUtils.ACCOUNT_CREATION_MESSAGE)
                 .accountInfo(AccountInfo.builder()
                         .accountNumber(savedUser.getAccountNumber())
                         .accountBalance(savedUser.getAccountBalance())
-                        .accountName(savedUser.getFirstName() + " " + savedUser.getLastName()+" "+savedUser.getOtherName())
+                        .accountName(savedUser.getFirstName() + " " + savedUser.getLastName() + " " + savedUser.getOtherName())
                         .build())
                 .build();
     }
