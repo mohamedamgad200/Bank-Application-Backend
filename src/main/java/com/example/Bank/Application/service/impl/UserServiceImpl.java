@@ -4,10 +4,12 @@ import com.example.Bank.Application.dto.*;
 import com.example.Bank.Application.entity.User;
 import com.example.Bank.Application.repository.UserRepository;
 import com.example.Bank.Application.utils.AccountUtils;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 
 @Service
 @RequiredArgsConstructor
@@ -15,6 +17,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final EmailService emailService;
 
+    @Transactional
     @Override
     public BankResponse createAccount(UserRequest userRequest) {
         /**
@@ -98,6 +101,7 @@ public class UserServiceImpl implements UserService {
         return foundUser.getFirstName() + " " + foundUser.getLastName() + " " + foundUser.getOtherName();
     }
 
+    @Transactional
     @Override
     public BankResponse creditAccount(CreditDebitRequest creditDebitRequest) {
         //check if the provided account  number  exists in the db
@@ -123,6 +127,46 @@ public class UserServiceImpl implements UserService {
                                 .build()
                 )
                 .build();
+    }
+
+    @Transactional
+    @Override
+    public BankResponse debitAccount(CreditDebitRequest creditDebitRequest) {
+        //check if the provided account  number  exists in the db
+        boolean isAccountExists = userRepository.existsByAccountNumber(creditDebitRequest.getAccountNumber());
+        if (!isAccountExists) {
+            return BankResponse.builder()
+                    .responseCode(AccountUtils.ACCOUNT_NOT_EXISTS_CODE)
+                    .responseMessage(AccountUtils.ACCOUNT_NOT_EXISTS_MESSAGE)
+                    .accountInfo(null)
+                    .build();
+        }
+        //check if the amount you intend to withdraw is not more than the current account balance
+        User userToDebit = userRepository.findByAccountNumber(creditDebitRequest.getAccountNumber());
+        BigInteger availabeBalance = userToDebit.getAccountBalance().toBigInteger();
+        BigInteger debitAmount = creditDebitRequest.getAmount().toBigInteger();
+        boolean isBalanceNotAvailable = availabeBalance.intValue() < debitAmount.intValue();
+        if (isBalanceNotAvailable) {
+            return BankResponse.builder()
+                    .responseCode(AccountUtils.INSUFFICIENT_BALANCE_CODE)
+                    .responseMessage(AccountUtils.INSUFFICIENT_BALANCE_MESSAGE)
+                    .accountInfo(null)
+                    .build();
+        } else {
+            userToDebit.setAccountBalance(userToDebit.getAccountBalance().subtract(creditDebitRequest.getAmount()));
+            userRepository.save(userToDebit);
+            return BankResponse.builder()
+                    .responseCode(AccountUtils.ACCOUNT_DEBITED_SUCCESS)
+                    .responseMessage(AccountUtils.ACCOUNT_DEBITED_MESSAGE)
+                    .accountInfo(
+                            AccountInfo.builder()
+                                    .accountName(userToDebit.getFirstName() + " " + userToDebit.getLastName() + " " + userToDebit.getOtherName())
+                                    .accountNumber(userToDebit.getAccountNumber())
+                                    .accountBalance(userToDebit.getAccountBalance())
+                                    .build()
+                    )
+                    .build();
+        }
     }
 
 }

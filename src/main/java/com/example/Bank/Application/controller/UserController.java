@@ -45,4 +45,10 @@ public class UserController {
        BankResponse bankResponse= userService.creditAccount(creditDebitRequest);
        return new ResponseEntity<>(bankResponse, HttpStatus.OK);
     }
+    @PostMapping("/debit")
+    public ResponseEntity<BankResponse>debitAccount(@Valid @RequestBody CreditDebitRequest creditDebitRequest)
+    {
+        BankResponse bankResponse=userService.debitAccount(creditDebitRequest);
+        return new ResponseEntity<>(bankResponse, HttpStatus.OK);
+    }
 }
