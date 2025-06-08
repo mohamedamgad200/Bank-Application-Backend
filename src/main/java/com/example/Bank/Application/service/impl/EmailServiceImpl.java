@@ -1,6 +1,7 @@
 package com.example.Bank.Application.service.impl;
 
 import com.example.Bank.Application.dto.EmailDetails;
+import com.example.Bank.Application.service.EmailService;
 import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;

@@ -1,10 +1,9 @@
 package com.example.Bank.Application.controller;
 
 import com.example.Bank.Application.dto.*;
-import com.example.Bank.Application.service.impl.UserService;
+import com.example.Bank.Application.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.persistence.Table;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

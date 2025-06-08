@@ -1,4 +1,4 @@
-package com.example.Bank.Application.service.impl;
+package com.example.Bank.Application.service;
 
 import com.example.Bank.Application.dto.*;
 

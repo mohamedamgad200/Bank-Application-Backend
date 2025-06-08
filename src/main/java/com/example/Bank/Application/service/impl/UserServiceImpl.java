@@ -3,19 +3,22 @@ package com.example.Bank.Application.service.impl;
 import com.example.Bank.Application.dto.*;
 import com.example.Bank.Application.entity.User;
 import com.example.Bank.Application.repository.UserRepository;
+import com.example.Bank.Application.service.EmailService;
+import com.example.Bank.Application.service.TransactionService;
+import com.example.Bank.Application.service.UserService;
 import com.example.Bank.Application.utils.AccountUtils;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final EmailService emailService;
+    private final TransactionService transactionService;
 
     @Transactional
     @Override
@@ -122,6 +125,13 @@ public class UserServiceImpl implements UserService {
                 .messageBody("The sum of "+creditDebitRequest.getAmount()+" has been sent to your account Your current balance is "+userToCredit.getAccountBalance())
                 .build();
         emailService.sendEmailAlert(creditAlert);
+        //save transaction
+        TransactionDto transactionDto = TransactionDto.builder()
+                .accountNumber(creditDebitRequest.getAccountNumber())
+                .amount(creditDebitRequest.getAmount())
+                .transactionType("CREDIT")
+                .build();
+        transactionService.saveTransaction(transactionDto);
         return BankResponse.builder()
                 .responseCode(AccountUtils.ACCOUNT_CREDITED_SUCCESS)
                 .responseMessage(AccountUtils.ACCOUNT_CREDITED_SUCCESS_MESSAGE)
@@ -164,6 +174,14 @@ public class UserServiceImpl implements UserService {
                     .messageBody("The sum of "+creditDebitRequest.getAmount()+" has been deducted from you account! Your current balance is "+userToDebit.getAccountBalance())
                     .build();
             emailService.sendEmailAlert(debitAlert);
+            //save transaction
+            TransactionDto transactionDto = TransactionDto.builder()
+                    .accountNumber(creditDebitRequest.getAccountNumber())
+                    .amount(creditDebitRequest.getAmount())
+                    .transactionType("DEBIT")
+                    .build();
+            transactionService.saveTransaction(transactionDto);
+
             return BankResponse.builder()
                     .responseCode(AccountUtils.ACCOUNT_DEBITED_SUCCESS)
                     .responseMessage(AccountUtils.ACCOUNT_DEBITED_MESSAGE)
@@ -209,6 +227,13 @@ public class UserServiceImpl implements UserService {
                 .messageBody("The sum of "+transferRequest.getAmount()+" has been deducted from you account! Your current balance is "+sourceAccountUser.getAccountBalance())
                 .build();
         emailService.sendEmailAlert(debitAlert);
+        //save transaction
+        TransactionDto transactionSourceDto = TransactionDto.builder()
+                .accountNumber(transferRequest.getSourceAccountNumber())
+                .amount(transferRequest.getAmount())
+                .transactionType("DEBIT")
+                .build();
+        transactionService.saveTransaction(transactionSourceDto);
         User destinationAccountUser=userRepository.findByAccountNumber(transferRequest.getDestinationAccountNumber());
         destinationAccountUser.setAccountBalance(destinationAccountUser.getAccountBalance().add(transferRequest.getAmount()));
         userRepository.save(destinationAccountUser);
@@ -218,6 +243,13 @@ public class UserServiceImpl implements UserService {
                 .messageBody("The sum of "+transferRequest.getAmount()+" has been sent to your account from "+sourceAccountnName +"Your current balance is "+sourceAccountUser.getAccountBalance())
                 .build();
         emailService.sendEmailAlert(creditAlert);
+        //save transaction
+        TransactionDto transactionDestinationDto = TransactionDto.builder()
+                .accountNumber(transferRequest.getDestinationAccountNumber())
+                .amount(transferRequest.getAmount())
+                .transactionType("CREDIT")
+                .build();
+        transactionService.saveTransaction(transactionDestinationDto);
         return BankResponse.builder()
                 .responseCode(AccountUtils.TRANSFER_SUCCESSFUL_CODE)
                 .responseMessage(AccountUtils.TRANSFER_SUCCESSFUL_MESSAGE)
