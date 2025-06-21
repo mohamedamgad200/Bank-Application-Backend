@@ -1,0 +1,326 @@
+{
+	"info": {
+		"_postman_id": "e9694bf5-4360-4805-9984-2fe02aa80319",
+		"name": "Bank-Application",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33221095"
+	},
+	"item": [
+		{
+			"name": "Create Account",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"firstName\": \"Ahmed\",\r\n  \"lastName\": \"abo\",\r\n  \"otherName\": \"Ahmed\",\r\n  \"gender\": \"Male\",\r\n  \"address\": \"123 Main Street\",\r\n  \"stateOfOrigin\": \"Egypt\",\r\n  \"email\": \"aboahmed@gmail.com\",\r\n  \"phoneNumber\": \"1234567889\",\r\n  \"password\":\"Amgad@2332002\",\r\n  \"role\":\"USER\",\r\n  \"alternativePhoneNumber\": \"9887654321\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login to Account",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"amgadmishoamgad@gmail.com\",\r\n  \"password\":\"Amgad@2332002\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/user/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Balance-Enquiry",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJtb2hhbWVkYW1nYWRvZmljaWFsQGdtYWlsLmNvbSIsImlhdCI6MTc1MDUwOTUzMSwiZXhwIjoxNzUwNTk1OTMxfQ.3twRF6w9CQ2JTX1miwq6TaGWybuViiek0R7-TqtJXutG9TXvOBylw-9e75t_YLl4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"accountNumber\":\"2025241922\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/user/balanceEnquiry",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user",
+						"balanceEnquiry"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Name-Enquiry",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJtb2hhbWVkYW1nYWRvZmljaWFsQGdtYWlsLmNvbSIsImlhdCI6MTc1MDUwOTUzMSwiZXhwIjoxNzUwNTk1OTMxfQ.3twRF6w9CQ2JTX1miwq6TaGWybuViiek0R7-TqtJXutG9TXvOBylw-9e75t_YLl4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"accountNumber\":\"2025241922\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/user/nameEnquiry",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user",
+						"nameEnquiry"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Credit-Account",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJtb2hhbWVkYW1nYWRvZmljaWFsQGdtYWlsLmNvbSIsImlhdCI6MTc1MDUwOTUzMSwiZXhwIjoxNzUwNTk1OTMxfQ.3twRF6w9CQ2JTX1miwq6TaGWybuViiek0R7-TqtJXutG9TXvOBylw-9e75t_YLl4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"accountNumber\":\"2025241922\",\r\n    \"amount\":10000\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/user/credit",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user",
+						"credit"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Debit-Account",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJtb2hhbWVkYW1nYWRvZmljaWFsQGdtYWlsLmNvbSIsImlhdCI6MTc1MDUwOTUzMSwiZXhwIjoxNzUwNTk1OTMxfQ.3twRF6w9CQ2JTX1miwq6TaGWybuViiek0R7-TqtJXutG9TXvOBylw-9e75t_YLl4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"accountNumber\":\"2025506961\",\r\n    \"amount\":10000\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/user/debit",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user",
+						"debit"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "transfer",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJtb2hhbWVkYW1nYWRvZmljaWFsQGdtYWlsLmNvbSIsImlhdCI6MTc1MDUwOTUzMSwiZXhwIjoxNzUwNTk1OTMxfQ.3twRF6w9CQ2JTX1miwq6TaGWybuViiek0R7-TqtJXutG9TXvOBylw-9e75t_YLl4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"sourceAccountNumber\":\"2025506961\",\r\n    \"destinationAccountNumber\":\"2025551746\",\r\n    \"amount\":10000\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/user/transfer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user",
+						"transfer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Send Bank statement",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJtb2hhbWVkYW1nYWRvZmljaWFsQGdtYWlsLmNvbSIsImlhdCI6MTc1MDUwOTUzMSwiZXhwIjoxNzUwNTk1OTMxfQ.3twRF6w9CQ2JTX1miwq6TaGWybuViiek0R7-TqtJXutG9TXvOBylw-9e75t_YLl4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"accountNumber\":\"2025506961\",\r\n    \"amount\":10000\r\n\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/bankStatement?accountNumber=2025506961&startDate=2025-06-07&endDate=2025-06-08",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"bankStatement"
+					],
+					"query": [
+						{
+							"key": "accountNumber",
+							"value": "2025506961"
+						},
+						{
+							"key": "startDate",
+							"value": "2025-06-07"
+						},
+						{
+							"key": "endDate",
+							"value": "2025-06-08"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

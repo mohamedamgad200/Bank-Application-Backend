@@ -36,6 +36,15 @@ public class UserController {
         return new ResponseEntity<>(bankResponse, HttpStatus.CREATED);
     }
 
+    @Operation(
+            summary="Login",
+            description = "Given an email and password, authenticate user"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Http 200 SUCCESS"
+    )
+
     @PostMapping("/login")
     public ResponseEntity<BankResponse>login(@Valid @RequestBody LoginDto loginDto)
     {
