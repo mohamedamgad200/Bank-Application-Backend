@@ -41,7 +41,7 @@ com.example.bank.application
 
 2. Configure the database in `application.properties`:
    ```properties
-   spring.datasource.url=jdbc:postgresql://localhost:5432/bankapp
+   spring.datasource.url=jdbc:mysql://localhost:3306/bank_application
    spring.datasource.username=your_db_user
    spring.datasource.password=your_db_pass
    ```
