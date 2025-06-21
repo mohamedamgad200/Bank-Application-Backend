@@ -1,10 +1,9 @@
 package com.example.Bank.Application.dto;
 
 
+import com.example.Bank.Application.enums.Role;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -41,8 +40,15 @@ public class UserRequest {
     @NotBlank(message = "phoneNumber should not be empty")
     @Pattern(regexp = "(^$|[0-9]{10})", message = "Mobile number must be 10 digits")
     private String phoneNumber;
+    @Schema(name="User Password")
+    @NotBlank(message = "password should not be empty")
+    private String password;
     @Schema(name="User Alternative Mobile Number")
     @NotBlank(message = "alternativePhoneNumber should not be empty")
     @Pattern(regexp = "(^$|[0-9]{10})", message = "Mobile number must be 10 digits")
     private String alternativePhoneNumber;
+    @Schema(name="User Role")
+    @NotNull(message = "role should not be empty")
+    private Role role;
+
 }

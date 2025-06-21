@@ -4,21 +4,46 @@ import com.example.Bank.Application.dto.*;
 import com.example.Bank.Application.entity.User;
 import com.example.Bank.Application.repository.UserRepository;
 import com.example.Bank.Application.service.EmailService;
+import com.example.Bank.Application.service.JwtService;
 import com.example.Bank.Application.service.TransactionService;
 import com.example.Bank.Application.service.UserService;
 import com.example.Bank.Application.utils.AccountUtils;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final EmailService emailService;
     private final TransactionService transactionService;
+    private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
+    private final JwtService jwtService;
+
+    public BankResponse login(LoginDto loginDto) {
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword()));
+        User user = userRepository.findByEmail(loginDto.getEmail()).orElseThrow();
+        String token = jwtService.generateToken(user);
+        EmailDetails loginAlert=EmailDetails.builder()
+                .subject("You're logged in")
+                .recipient(loginDto.getEmail())
+                .messageBody("You logged into your account .If you did not initiate this action,please contact customer support immediately.")
+                .build();
+        emailService.sendEmailAlert(loginAlert);
+        return BankResponse.builder()
+                .responseCode("Login Success")
+                .responseMessage(token)
+                .build();
+    }
 
     @Transactional
     @Override
@@ -44,6 +69,8 @@ public class UserServiceImpl implements UserService {
                 .accountNumber(AccountUtils.generateAccountNumber())
                 .accountBalance(BigDecimal.ZERO)
                 .email(userRequest.getEmail())
+                .password(passwordEncoder.encode(userRequest.getPassword()))
+                .role(userRequest.getRole())
                 .phoneNumber(userRequest.getPhoneNumber())
                 .alternativePhoneNumber(userRequest.getAlternativePhoneNumber())
                 .status("ACTIVE")

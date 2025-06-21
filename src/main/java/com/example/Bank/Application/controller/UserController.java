@@ -36,6 +36,13 @@ public class UserController {
         return new ResponseEntity<>(bankResponse, HttpStatus.CREATED);
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<BankResponse>login(@Valid @RequestBody LoginDto loginDto)
+    {
+        BankResponse bankResponse = userService.login(loginDto);
+        return new ResponseEntity<>(bankResponse, HttpStatus.OK);
+    }
+
     @Operation(
             summary="Balance Enquiry",
             description = "Given an account number, check how much the user has"
