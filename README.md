@@ -9,7 +9,6 @@ This is a **Spring Boot-based banking application** that simulates core banking 
 - 🔄 Money transfer between accounts with transaction history
 - 📈 Role-based access (Admin vs Customer)
 - 📜 Detailed API response and error handling
-- 🧪 Unit testing using JUnit & Mockito
 
 ## 🛠️ Tech Stack
 
@@ -17,9 +16,8 @@ This is a **Spring Boot-based banking application** that simulates core banking 
 - Spring Boot 3
 - Spring Security + JWT
 - Spring Data JPA
-- PostgreSQL / H2 (dev)
+- MySql
 - Maven
-- JUnit, Mockito
 
 ## 📂 Project Structure
 
@@ -52,18 +50,6 @@ com.example.bank.application
    ```bash
    mvn spring-boot:run
    ```
-
-## 🧪 Run Tests
-
-```bash
-mvn test
-```
-
-## 📺 Learn From the Playlist
-
-I documented my learning and building process in this YouTube playlist:  
-📹 [Watch the Banking App Series](https://www.youtube.com/playlist?list=PLD72JnLc4hpviJusvYgJJBupxRpflOAKc)
-
 ## 🤝 Contribute
 
 Pull requests are welcome! Feel free to fork this repo and improve it. Issues and feedback are also appreciated.
